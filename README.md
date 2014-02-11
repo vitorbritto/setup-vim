@@ -17,17 +17,9 @@ To install the files and default configuration run the following:
 
 [1] - Installation:
 
-    git clone http://github.com/vitorbritto/setup-vim.git ~/.vim
+    git clone --recursive http://github.com/vitorbritto/setup-vim.git ~/.vim
 
-[2] - Install Plugins:
-
-    cd ~/.vim
-    git submodule init
-    git submodule update
-    git submodule foreach git checkout master
-    git submodule foreach git clean -f
-
-[3] - Create symlink for `.vimrc`:
+[2] - Create symlink for `.vimrc`:
 
     ln -s ~/.vim/vimrc ~/.vimrc
 
