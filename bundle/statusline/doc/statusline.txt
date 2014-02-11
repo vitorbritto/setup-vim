@@ -1,0 +1,13 @@
+*statusline.txt*
+
+Author:
+  Matthew Kitt <mk dot kitt at gmail dot com>
+
+==============================================================================
+Status Line                             *statusline*
+
+1. Introduction                         |statusline-intro|
+==============================================================================
+1. Introduction                         *statusline-intro*
+
+These are status line settings for use with various plugins like syntastic, fugitive, rvm. Also provides feedback on whitespace, tab warnings and other goodness to keep files as clean as possible. These settings were moved from .vimrc.
