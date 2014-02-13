@@ -9,75 +9,80 @@ execute pathogen#infect()
 "  General
 "  ---------------------------------------------------------------------------
 
-filetype plugin indent on
-let mapleader = ","
-let g:mapleader = ","
-set modeline
+filetype plugin indent on           " Automatically detect file types.let mapleader = ","
+let g:mapleader = ","               " Change mapleader
+
+set modeline                        " Respect modeline in files
 set modelines=3
-set history=1000
-syntax on
-set autoread
-set shell=bash
+
+set history=1000                    " Store a ton of history (default is 20)
+syntax on                           " Syntax highlighting
+set mouse=a                         " Automatically enable mouse usage
+set mousehide                       " Hide the mouse cursor while typing
+set autoread                        " Update an open file edited outside of Vim
+set autowrite                       " Automatically :write before running commands
+set shell=bash                      " Run RVM inside VIM
+set ttyfast                         " Optimize for fast terminal connections
+
 
 "  ---------------------------------------------------------------------------
 "  UI
 "  ---------------------------------------------------------------------------
 
-set title
-set encoding=utf-8
-set scrolloff=3
+set title                                           " Show the filename in the window titlebar
+set encoding=utf-8                                  " Use UTF-8
+set scrolloff=3                                     " Start scrolling three lines before the horizontal window border
 set autoindent
 set smartindent
-set showmode
-set showcmd
+set showmode                                        " Show the current mode
 set hidden
-set wildmenu
+set wildmenu                                        " Enhance command-line completion
 set wildmode=list:longest
 set visualbell
 set cursorline
-set ttyfast
-set ruler
+
 set backspace=indent,eol,start
-set laststatus=2
+set laststatus=2                                     " Always show status line
 set undofile
-set splitbelow splitright
+set splitbelow splitright                            " Open new split panes to right and bottom, which feels more natural
 
-set number
-set relativenumber
+set number                                           " Line numbers on
+set numberwidth=5
 
-set foldenable                " Turn on folding
-set foldmethod=marker         " Fold on the marker
-set foldlevel=100             " Don't autofold anything (but I can still fold manually)
+set ruler                                            " Show the ruler
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)   " A ruler on steroids
+set showcmd                                          " Show partial commands in status line and
+                                                     " selected characters/lines in visual mode
 
-set foldopen=block,hor,tag    " what movements open folds
+set foldenable                                       " Turn on folding
+set foldmethod=marker                                " Fold on the marker
+set foldlevel=100                                    " Don't autofold anything (but I can still fold manually)
+
+set foldopen=block,hor,tag                           " what movements open folds
 set foldopen+=percent,mark
 set foldopen+=quickfix
 
-" Auto adjust window sizes when they become current
-set winwidth=84
+set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_                 " Show “invisible” characters
+set list
+set hlsearch                                         " Highlight searches
+set ignorecase                                       " Ignore case of searches
+set incsearch                                        " Highlight dynamically as pattern is typed
+
+set winwidth=84                                      " Auto adjust window sizes when they become current
 set winheight=5
 set winminheight=5
 set winheight=999
-set showtabline=2
 
-" Theme and Font Settings
-colorscheme molokai
+colorscheme molokai                                  " Theme and Font Settings
 set guifont=Menlo:h14
 set t_Co=256
 set linespace=8
-
-" Use relative line numbers
-if exists("&relativenumber")
-    set relativenumber
-    au BufReadPost * set relativenumber
-endif
 
 
 "  ---------------------------------------------------------------------------
 "  Directories - Centralize backups, swapfiles and undo history
 "  ---------------------------------------------------------------------------
 
-set backup
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
 if exists("&undodir")
@@ -89,14 +94,14 @@ endif
 "  Text Formatting
 "  ---------------------------------------------------------------------------
 
-set tabstop=4
+set tabstop=4                     " Make tabs as wide as four spaces
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+
 set nowrap
 set textwidth=79
 set formatoptions=n
-
 
 "  ---------------------------------------------------------------------------
 "  Status Line
@@ -140,8 +145,18 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
 
-" Open NERDTree
-map <C-n> :NERDTreeToggle<CR>
+noremap <leader>ss :call StripWhitespace()<CR>
+
+
+"  ---------------------------------------------------------------------------
+"  Helpers
+"  ---------------------------------------------------------------------------
+
+function! MakeDirIfNoExists(path)
+    if !isdirectory(expand(a:path))
+        call mkdir(expand(a:path), "p")
+    endif
+endfunction
 
 " Rename current file
 function! RenameFile()
@@ -163,8 +178,6 @@ function! StripWhitespace()
     call setpos('.', save_cursor)
     call setreg('/', old_query)
 endfunction
-
-noremap <leader>ss :call StripWhitespace()<CR>
 
 
 "  ---------------------------------------------------------------------------
@@ -194,28 +207,84 @@ imap  <silent> <F4> <Esc> mmgg=G`m^zz
 "  Auto Commands
 "  ---------------------------------------------------------------------------
 
-autocmd BufNewFile *.txt :write
-autocmd vimenter * NERDTree
+augroup vimrcEx
+    autocmd!
+    autocmd vimenter * NERDTree
 
+    autocmd BufNewFile *.txt :write
+
+    autocmd BufRead,BufNewFile *.md set filetype=markdown
+    autocmd FileType markdown setlocal spell                " Enable spellchecking for Markdown
+    autocmd BufRead,BufNewFile *.md setlocal textwidth=80   " Automatically wrap at 80 characters for Markdown
+
+    autocmd! BufRead,BufNewFile *.sass setfiletype sass
+augroup END
 
 "  ---------------------------------------------------------------------------
 "  Plugins
 "  ---------------------------------------------------------------------------
 
-let NERDSpaceDelims=1
-let NERDTreeIgnore=['.DS_Store']
+" NerdTree {
 
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_disabled_filetypes = ['scss']
+    map <C-n> :NERDTreeToggle<CR>               " Open NERDTree
+    map <C-e> <plug>NERDTreeTabsToggle<CR>      " Toggle tabs
+    map <leader>e :NERDTreeFind<CR>             " NERDTree Find
+    nmap <leader>nt :NERDTreeFind<CR>
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+    let NERDTreeShowBookmarks=1
+    let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+    let NERDTreeChDirMode=0
+    let NERDTreeQuitOnOpen=1
+    let NERDTreeMouseMode=2
+    let NERDTreeShowHidden=1
+    let NERDTreeKeepTreeInNewTab=1
+    let g:nerdtree_tabs_open_on_gui_startup=0
+" }
 
-" Setup supertab to be a bit smarter about it's usage
-" let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabLongestEnhanced = 1
 
-" Tell snipmate to pull it's snippets from a custom directory
-let g:snippets_dir = '~/.vim/snippets/'
+" Synstatic {
+    let g:syntastic_check_on_open=1                " Configure Synstatic syntax checking to check on open as well as save
+    let g:syntastic_error_symbol='✗'               " Configure Synstatic error symbol
+    let g:syntastic_style_error_symbol  = '⚡'
+    let g:syntastic_warning_symbol='⚠'             " Configure Synstatic warning symbol
+    let g:syntastic_style_warning_symbol  = '⚡'
+" }
+
+" AirLine {
+    let g:airline_theme='powerlineish'
+    let g:airline_enable_branch=1
+    let g:airline_powerline_fonts=1
+    let g:airline_detect_whitespace = 1
+    let g:airline#extensions#hunks#non_zero_only = 1
+" }
+
+" Supertab {
+    " let g:SuperTabDefaultCompletionType = 'context'
+    let g:SuperTabLongestEnhanced = 1
+" }
+
+" Snipmate {
+    " Tell snipmate to pull it's snippets from a custom directory
+    let g:snippets_dir = '~/.vim/snippets/'
+" }
+
+" Fugitive {
+    nnoremap <silent> <leader>gs :Gstatus<CR>
+    nnoremap <silent> <leader>gd :Gdiff<CR>
+    nnoremap <silent> <leader>gc :Gcommit<CR>
+    nnoremap <silent> <leader>gb :Gblame<CR>
+    nnoremap <silent> <leader>gl :Glog<CR>
+    nnoremap <silent> <leader>gp :Git push<CR>
+    nnoremap <silent> <leader>gr :Gread<CR>
+    nnoremap <silent> <leader>gw :Gwrite<CR>
+    nnoremap <silent> <leader>ge :Gedit<CR>
+    " Mnemonic _i_nteractive
+    nnoremap <silent> <leader>gi :Git add -p %<CR>
+    nnoremap <silent> <leader>gg :SignifyToggle<CR>
+" }
+
+" Gundo {
+    nnoremap <Leader>u :GundoToggle<CR>
+    let g:gundo_preview_bottom = 1
+" }
+
