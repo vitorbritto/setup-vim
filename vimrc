@@ -40,11 +40,11 @@ set ttyfast
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
+set undofile
+set splitbelow splitright
+
 set number
 set relativenumber
-set undofile
-set mouse=a                   " Enable mouse in all modes
-set splitbelow splitright
 
 set foldenable                " Turn on folding
 set foldmethod=marker         " Fold on the marker
@@ -84,14 +84,6 @@ noremap <leader>ss :call StripWhitespace()<CR>
 " Save a file as root (,W)
 noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
-" Automatic commands
-if has("autocmd")
-    " Enable file type detection
-    filetype on
-    " Treat .json files as .js
-    autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
-endif
-
 
 "  ---------------------------------------------------------------------------
 "  Directories - Centralize backups, swapfiles and undo history
@@ -116,12 +108,6 @@ set expandtab
 set nowrap
 set textwidth=79
 set formatoptions=n
-
-" check to make sure vim has been compiled with colorcolumn support
-" before enabling it
-if exists("+colorcolumn")
-  set colorcolumn=80
-endif
 
 
 "  ---------------------------------------------------------------------------
@@ -153,99 +139,18 @@ au InsertLeave * hi StatusLine ctermfg=Black ctermbg=White
 "  Mappings
 "  ---------------------------------------------------------------------------
 
-" Searching / moving
-nnoremap / /\v
-vnoremap / /\v
-set ignorecase
-set smartcase
-set incsearch
-set showmatch
-set hlsearch
-" turn search highlight off
-nnoremap <leader><space> :noh<cr>
-" search (forwards)
-nmap <space> /
-" search (backwards)
-map <c-space> ?
-
-" Center screen when scrolling search results
-nmap n nzz
-nmap N Nzz
-
-imap <C-h> <ESC>^
-imap <C-l> <ESC>$
-
-" Turn off arrow keys (this might not be a good idea for beginners, but it is
-" the best way to ween yourself of arrow keys on to hjkl)
-" http://yehudakatz.com/2010/07/29/everyone-who-tried-to-convince-me-to-use-vim-was-wrong/
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>"
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-
-nnoremap j gj
-nnoremap k gk
-
-" Map ESC
-imap jj <ESC>
-
-" ACK
-set grepprg=ack
-
-" ,a to Ack (search in files)
-nnoremap <leader>a :Ack
-
-" Ack settings: https://github.com/krisleech/vimfiles/wiki/Make-ack-ignore-files
-
-" Auto format
-map === mmgg=G`m^zz
-
-" Move between splits
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" Move lines up and down
-" map <C-J> :m +1 <CR>
-" map <C-K> :m -2 <CR>
-
-" Switch between buffers
-noremap <tab> :bn<CR>
-noremap <S-tab> :bp<CR>
-" close buffer
-nmap <leader>d :bd<CR>
-" close all buffers
-nmap <leader>D :bufdo bd<CR>
-
-" Switch between last two buffers
-nnoremap <leader><leader> <c-^>
-
-" Edit/View files relative to current directory
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>e :edit %%
-map <leader>v :view %%
-
-" Ignore some binary, versioning and backup files when auto-completing
-set wildignore=.svn,CVS,.git,*.swp,*.jpg,*.png,*.gif,*.pdf,*.bak
-" Set a lower priority for .old files
-set suffixes+=.old
-
 " Saving and exit
 nmap <leader>q :wqa!<CR>
 nmap <leader>w :w!<CR>
 nmap <leader><Esc> :q!<CR>
 
-" EXTERNAL COPY / PASTE
-" Press F2 before and after pasting from an external Window, not required for
-" MacVim
-set pastetoggle=<F2>
-map <C-v> "+gP<CR>
-vmap <C-c> "+y
+
+"  ---------------------------------------------------------------------------
+"  Abbreviations
+"  ---------------------------------------------------------------------------
+
+iabbrev @@    code@vitorbritto.com.br
+iabbrev ccopy Copyright 2014 Vitor Britto. All rights reserved.
 
 
 "  ---------------------------------------------------------------------------
@@ -253,20 +158,27 @@ vmap <C-c> "+y
 "  ---------------------------------------------------------------------------
 
 " F2 - Terminal
-map <F2> :ConqueTerm zsh<CR>
+map <F2> :Terminal<CR>
 
-" F3 - YankRing
-nnoremap <silent> <F3> :YRShow<cr>
-inoremap <silent> <F3> <ESC>:YRShow<cr>
+" F3 - toggle GUndo tree
+nnoremap <F3> :GundoToggle<CR>
 
-let g:yankring_history_dir = '/tmp'
+" F4 - indent file and return cursor and center cursor
+map   <silent> <F4> mmgg=G`m^zz
+imap  <silent> <F4> <Esc> mmgg=G`m^zz
 
-" Press F5 to toggle GUndo tree
-nnoremap <F5> :GundoToggle<CR>
 
-" indent file and return cursor and center cursor
-map   <silent> <F6> mmgg=G`m^zz
-imap  <silent> <F6> <Esc> mmgg=G`m^zz
+"  ---------------------------------------------------------------------------
+"  Auto Commands
+"  ---------------------------------------------------------------------------
+
+" Automatic commands
+if has("autocmd")
+    filetype on
+    autocmd BufNewFile *.txt :write
+endif
+
+
 
 
 "  ---------------------------------------------------------------------------
