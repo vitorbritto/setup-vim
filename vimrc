@@ -12,13 +12,12 @@ execute pathogen#infect()
 filetype plugin indent on
 let mapleader = ","
 let g:mapleader = ","
-set modelines=0
+set modeline
+set modelines=3
 set history=1000
-set nobackup
-set nowritebackup
-set noswapfile
 syntax on
 set autoread
+set shell=bash
 
 "  ---------------------------------------------------------------------------
 "  UI
@@ -59,6 +58,7 @@ set winwidth=84
 set winheight=5
 set winminheight=5
 set winheight=999
+set showtabline=2
 
 " Theme and Font Settings
 colorscheme molokai
@@ -72,23 +72,12 @@ if exists("&relativenumber")
     au BufReadPost * set relativenumber
 endif
 
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
-    :%s/\s\+$//e
-    call setpos('.', save_cursor)
-    call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
-" Save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
-
 
 "  ---------------------------------------------------------------------------
 "  Directories - Centralize backups, swapfiles and undo history
 "  ---------------------------------------------------------------------------
 
+set backup
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
 if exists("&undodir")
@@ -104,7 +93,6 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-
 set nowrap
 set textwidth=79
 set formatoptions=n
@@ -144,6 +132,40 @@ nmap <leader>q :wqa!<CR>
 nmap <leader>w :w!<CR>
 nmap <leader><Esc> :q!<CR>
 
+" Save a file as root (,W)
+noremap <leader>W :w !sudo tee % > /dev/null<CR>
+
+" Opens files in directory of current file
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
+map <leader>v :view %%
+
+" Open NERDTree
+map <C-n> :NERDTreeToggle<CR>
+
+" Rename current file
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+map <leader>n :call RenameFile()<cr>
+
+" Strip trailing whitespace (,ss)
+function! StripWhitespace()
+    let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    :%s/\s\+$//e
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
+endfunction
+
+noremap <leader>ss :call StripWhitespace()<CR>
+
 
 "  ---------------------------------------------------------------------------
 "  Abbreviations
@@ -172,13 +194,8 @@ imap  <silent> <F4> <Esc> mmgg=G`m^zz
 "  Auto Commands
 "  ---------------------------------------------------------------------------
 
-" Automatic commands
-if has("autocmd")
-    filetype on
-    autocmd BufNewFile *.txt :write
-endif
-
-
+autocmd BufNewFile *.txt :write
+autocmd vimenter * NERDTree
 
 
 "  ---------------------------------------------------------------------------
@@ -187,17 +204,18 @@ endif
 
 let NERDSpaceDelims=1
 let NERDTreeIgnore=['.DS_Store']
+
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_disabled_filetypes = ['scss']
 
-" Popup menu behavior
-set completeopt=longest,menu
-set pumheight=20
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 " Setup supertab to be a bit smarter about it's usage
 " let g:SuperTabDefaultCompletionType = 'context'
 let g:SuperTabLongestEnhanced = 1
 
 " Tell snipmate to pull it's snippets from a custom directory
-let g:snippets_dir = $HOME.'/.vim/snippets/'
+let g:snippets_dir = '~/.vim/snippets/'
