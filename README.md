@@ -11,22 +11,16 @@ Tested on MacOS and Linux
 Introduction to Vim: http://blog.interlinked.org/tutorials/vim_tutorial.html
 
 
-## Getting Started
+## Installing
 
 To install the files and default configuration run the following:
 
-[1] - Installation:
+    rm -fR ~/.vim && git clone --recursive http://github.com/vitorbritto/setup-vim.git ~/.vim && rm ~/.vimrc && ln -s ~/.vim/vimrc ~/.vimrc && clear && echo "Done! :)"
 
-    git clone --recursive http://github.com/vitorbritto/setup-vim.git ~/.vim
-
-[2] - Create symlink for `.vimrc`:
-
-    ln -s ~/.vim/vimrc ~/.vimrc
 
 ## Plugins
 
 Plug-ins are managed using pathogen. All submodule plug-ins are stored in the `bundle` directory.
-
 
 ### Add Plugins (Install plugins as submodules)
 

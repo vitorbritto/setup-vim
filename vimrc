@@ -17,8 +17,6 @@ set modelines=3
 
 set history=1000                    " Store a ton of history (default is 20)
 syntax on                           " Syntax highlighting
-set mouse=a                         " Automatically enable mouse usage
-set mousehide                       " Hide the mouse cursor while typing
 set autoread                        " Update an open file edited outside of Vim
 set autowrite                       " Automatically :write before running commands
 set shell=bash                      " Run RVM inside VIM
@@ -43,12 +41,15 @@ set wildmode=list:longest,full             " Command <Tab> completion, list matc
 set novisualbell                           " No blinking
 set noerrorbells                           " No noise.
 
-set virtualedit=block
-
-set guioptions-=m                          "remove menu bar
-set guioptions-=T                          "remove toolbar
-set guioptions-=r                          "remove right-hand scroll bar
-set guioptions-=L                          "remove left-hand scroll bar
+if has("gui_running")
+    set guioptions-=T     " no toolbar
+    set guioptions-=m     " no menus
+    set guioptions-=r     " no scrollbar on the right
+    set guioptions-=l     " no scrollbar on the left
+    set guioptions-=b     " no scrollbar on the bottom
+    set mouse=a           " Automatically enable mouse usage
+    set mousehide         " Hide the mouse cursor while typing
+endif
 
 set backspace=indent,eol,start
 set laststatus=2                           " Always show status line
@@ -241,7 +242,7 @@ augroup END
 
     let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
     let NERDTreeChDirMode=0
-    let NERDTreeQuitOnOpen=1
+    let NERDTreeQuitOnOpen=0
     let NERDTreeMouseMode=2
     let NERDTreeShowHidden=1
     let NERDTreeKeepTreeInNewTab=0
