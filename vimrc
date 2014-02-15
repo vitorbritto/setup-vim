@@ -29,26 +29,38 @@ set ttyfast                         " Optimize for fast terminal connections
 "  UI
 "  ---------------------------------------------------------------------------
 
-set title                                           " Show the filename in the window titlebar
-set encoding=utf-8                                  " Use UTF-8
-set scrolloff=3                                     " Start scrolling three lines before the horizontal window border
+set title                                  " Show the filename in the window titlebar
+set encoding=utf-8                         " Use UTF-8
+set scrolloff=3                            " Start scrolling three lines before the horizontal window border
 set autoindent
 set smartindent
-set showmode                                        " Show the current mode
+set showmode                               " Show the current mode
+set tabpagemax=15                          " Only show 15 tabs
 set hidden
-set wildmenu                                        " Enhance command-line completion
-set wildmode=list:longest
-set visualbell
-set cursorline
+set wildmenu                               " Show list instead of just completing
+set wildmode=list:longest,full             " Command <Tab> completion, list matches, then longest common part, then all.
+
+set novisualbell                           " No blinking
+set noerrorbells                           " No noise.
+
+set virtualedit=block
+
+set guioptions-=m                          "remove menu bar
+set guioptions-=T                          "remove toolbar
+set guioptions-=r                          "remove right-hand scroll bar
+set guioptions-=L                          "remove left-hand scroll bar
 
 set backspace=indent,eol,start
-set laststatus=2                                     " Always show status line
+set laststatus=2                           " Always show status line
 set undofile
-set splitbelow splitright                            " Open new split panes to right and bottom, which feels more natural
 
-set number                                           " Line numbers on
+set splitbelow                             " Open new split panes to right and bottom, which feels more natural
+set splitright
+
+set number                                 " Line numbers on
 set numberwidth=5
 
+set cursorline
 set ruler                                            " Show the ruler
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)   " A ruler on steroids
 set showcmd                                          " Show partial commands in status line and
@@ -62,16 +74,13 @@ set foldopen=block,hor,tag                           " what movements open folds
 set foldopen+=percent,mark
 set foldopen+=quickfix
 
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_                 " Show “invisible” characters
 set list
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.       " Highlight problematic whitespace
 set hlsearch                                         " Highlight searches
 set ignorecase                                       " Ignore case of searches
 set incsearch                                        " Highlight dynamically as pattern is typed
 
-set winwidth=84                                      " Auto adjust window sizes when they become current
-set winheight=5
-set winminheight=5
-set winheight=999
+set lines=50 columns=180                             " Auto adjust window sizes when they become current
 
 colorscheme molokai                                  " Theme and Font Settings
 set guifont=Menlo:h14
@@ -99,8 +108,7 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 
-set nowrap
-set textwidth=79
+set textwidth=80
 set formatoptions=n
 
 "  ---------------------------------------------------------------------------
@@ -231,13 +239,12 @@ augroup END
     map <leader>e :NERDTreeFind<CR>             " NERDTree Find
     nmap <leader>nt :NERDTreeFind<CR>
 
-    let NERDTreeShowBookmarks=1
     let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
     let NERDTreeChDirMode=0
     let NERDTreeQuitOnOpen=1
     let NERDTreeMouseMode=2
     let NERDTreeShowHidden=1
-    let NERDTreeKeepTreeInNewTab=1
+    let NERDTreeKeepTreeInNewTab=0
     let g:nerdtree_tabs_open_on_gui_startup=0
 " }
 
