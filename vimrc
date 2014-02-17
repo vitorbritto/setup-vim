@@ -39,24 +39,20 @@ set wildmenu                               " Show list instead of just completin
 set wildmode=list:longest,full             " Command <Tab> completion, list matches, then longest common part, then all.
 
 set novisualbell                           " No blinking
-set noerrorbells                           " No noise.
+set noerrorbells                           " No noise
 
 if has("gui_running")
-    set guioptions-=T     " no toolbar
-    set guioptions-=m     " no menus
-    set guioptions-=r     " no scrollbar on the right
-    set guioptions-=l     " no scrollbar on the left
-    set guioptions-=b     " no scrollbar on the bottom
-    set mouse=a           " Automatically enable mouse usage
-    set mousehide         " Hide the mouse cursor while typing
+    set go-=T                              " hide the toolbar
+    set go-=m                              " hide the menu
+    set go-=rRlLbh                         " hide all the scrollbars
+    set mouse=a                            " Automatically enable mouse usage
+    set mousehide                          " Hide the mouse cursor while typing
 endif
 
 set backspace=indent,eol,start
-set laststatus=2                           " Always show status line
 set undofile
 
-set splitbelow                             " Open new split panes to right and bottom, which feels more natural
-set splitright
+set splitbelow splitright                  " Open new split panes to right and bottom, which feels more natural
 
 set number                                 " Line numbers on
 set numberwidth=5
@@ -116,26 +112,153 @@ set formatoptions=n
 "  Status Line
 "  ---------------------------------------------------------------------------
 
-" path
-set statusline=%f
-" flags
-set statusline+=%m%r%h%w
-" git branch
-set statusline+=\ %{fugitive#statusline()}
-" encoding
-set statusline+=\ [%{strlen(&fenc)?&fenc:&enc}]
-" rvm
-set statusline+=\ %{rvm#statusline()}
-" line x of y
-set statusline+=\ [line\ %l\/%L]
+"statusline setup
+set statusline =%#identifier#
+set statusline+=[%t]    "tail of the filename
+set statusline+=%*
 
-" Colour
-hi StatusLine ctermfg=Black ctermbg=White
+"display a warning if fileformat isnt unix
+set statusline+=%#warningmsg#
+set statusline+=%{&ff!='unix'?'['.&ff.']':''}
+set statusline+=%*
 
-" Change colour of statusline in insert mode
-au InsertEnter * hi StatusLine ctermbg=DarkBlue
-au InsertLeave * hi StatusLine ctermfg=Black ctermbg=White
+"display a warning if file encoding isnt utf-8
+set statusline+=%#warningmsg#
+set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
+set statusline+=%*
 
+set statusline+=%h      "help file flag
+set statusline+=%y      "filetype
+
+"read only flag
+set statusline+=%#identifier#
+set statusline+=%r
+set statusline+=%*
+
+"modified flag
+set statusline+=%#identifier#
+set statusline+=%m
+set statusline+=%*
+
+set statusline+=%{fugitive#statusline()}
+
+"display a warning if &et is wrong, or we have mixed-indenting
+set statusline+=%#error#
+set statusline+=%{StatuslineTabWarning()}
+set statusline+=%*
+
+set statusline+=%{StatuslineTrailingSpaceWarning()}
+
+set statusline+=%{StatuslineLongLineWarning()}
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+"display a warning if &paste is set
+set statusline+=%#error#
+set statusline+=%{&paste?'[paste]':''}
+set statusline+=%*
+
+set statusline+=%=      "left/right separator
+set statusline+=%{StatuslineCurrentHighlight()}\ \ "current highlight
+set statusline+=%c,     "cursor column
+set statusline+=%l/%L   "cursor line/total lines
+set statusline+=\ %P    "percent through file
+set laststatus=2
+
+"recalculate the trailing whitespace warning when idle, and after saving
+autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
+
+"return '[\s]' if trailing white space is detected
+"return '' otherwise
+function! StatuslineTrailingSpaceWarning()
+    if !exists("b:statusline_trailing_space_warning")
+
+        if !&modifiable
+            let b:statusline_trailing_space_warning = ''
+            return b:statusline_trailing_space_warning
+        endif
+
+        if search('\s\+$', 'nw') != 0
+            let b:statusline_trailing_space_warning = '[\s]'
+        else
+            let b:statusline_trailing_space_warning = ''
+        endif
+    endif
+    return b:statusline_trailing_space_warning
+endfunction
+
+
+"return the syntax highlight group under the cursor ''
+function! StatuslineCurrentHighlight()
+    let name = synIDattr(synID(line('.'),col('.'),1),'name')
+    if name == ''
+        return ''
+    else
+        return '[' . name . ']'
+    endif
+endfunction
+
+"recalculate the tab warning flag when idle and after writing
+autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
+
+"return '[&et]' if &et is set wrong
+"return '[mixed-indenting]' if spaces and tabs are used to indent
+"return an empty string if everything is fine
+function! StatuslineTabWarning()
+    if !exists("b:statusline_tab_warning")
+        let b:statusline_tab_warning = ''
+
+        if !&modifiable
+            return b:statusline_tab_warning
+        endif
+
+        let tabs = search('^\t', 'nw') != 0
+
+        "find spaces that arent used as alignment in the first indent column
+        let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
+
+        if tabs && spaces
+            let b:statusline_tab_warning =  '[mixed-indenting]'
+        elseif (spaces && !&et) || (tabs && &et)
+            let b:statusline_tab_warning = '[&et]'
+        endif
+    endif
+    return b:statusline_tab_warning
+endfunction
+
+"recalculate the long line warning when idle and after saving
+autocmd cursorhold,bufwritepost * unlet! b:statusline_long_line_warning
+
+"return a warning for "long lines" where "long" is either &textwidth or 80 (if
+"no &textwidth is set)
+"
+"return '' if no long lines
+"return '[#x,my,$z] if long lines are found, were x is the number of long
+"lines, y is the median length of the long lines and z is the length of the
+"longest line
+function! StatuslineLongLineWarning()
+    if !exists("b:statusline_long_line_warning")
+
+        if !&modifiable
+            let b:statusline_long_line_warning = ''
+            return b:statusline_long_line_warning
+        endif
+
+        let long_line_lens = s:LongLines()
+
+        if len(long_line_lens) > 0
+            let b:statusline_long_line_warning = "[" .
+                        \ '#' . len(long_line_lens) . "," .
+                        \ 'm' . s:Median(long_line_lens) . "," .
+                        \ '$' . max(long_line_lens) . "]"
+        else
+            let b:statusline_long_line_warning = ""
+        endif
+    endif
+    return b:statusline_long_line_warning
+endfunction
 
 "  ---------------------------------------------------------------------------
 "  Mappings
@@ -201,33 +324,33 @@ iabbrev ccopy Copyright 2014 Vitor Britto. All rights reserved.
 "  Function Keys
 "  ---------------------------------------------------------------------------
 
-" F2 - Terminal
-map <F2> :Terminal<CR>
+" F1 - Terminal
+map <F1> :Terminal<CR>
 
-" F3 - toggle GUndo tree
+" F2 - NERDTree
+nnoremap <F2> :NERDTreeToggle<CR>
+
+" F3 - GundoTree
 nnoremap <F3> :GundoToggle<CR>
-
-" F4 - indent file and return cursor and center cursor
-map   <silent> <F4> mmgg=G`m^zz
-imap  <silent> <F4> <Esc> mmgg=G`m^zz
 
 
 "  ---------------------------------------------------------------------------
 "  Auto Commands
 "  ---------------------------------------------------------------------------
 
-augroup vimrcEx
-    autocmd!
-    autocmd vimenter * NERDTree
+au vimenter * NERDTree
 
-    autocmd BufNewFile *.txt :write
+au BufNewFile *.txt :write
 
-    autocmd BufRead,BufNewFile *.md set filetype=markdown
-    autocmd FileType markdown setlocal spell                " Enable spellchecking for Markdown
-    autocmd BufRead,BufNewFile *.md setlocal textwidth=80   " Automatically wrap at 80 characters for Markdown
+au BufRead,BufNewFile *.md set filetype=markdown
+au FileType markdown setlocal spell                " Enable spellchecking for Markdown
+au BufRead,BufNewFile *.md setlocal textwidth=80   " Automatically wrap at 80 characters for Markdown
 
-    autocmd! BufRead,BufNewFile *.sass setfiletype sass
-augroup END
+au! BufRead,BufNewFile *.sass setfiletype sass
+au BufRead,BufNewFile *.scss set filetype=scss
+au BufNewFile,BufReadPost *.scss setl foldmethod=indent
+au BufNewFile,BufReadPost *.sass setl foldmethod=indent
+
 
 "  ---------------------------------------------------------------------------
 "  Plugins
@@ -241,14 +364,17 @@ augroup END
     nmap <leader>nt :NERDTreeFind<CR>
 
     let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-    let NERDTreeChDirMode=0
-    let NERDTreeQuitOnOpen=0
+    let NERDTreeShowBookmarks = 0
+    let NERDChristmasTree = 1
+    let NERDTreeWinPos = "left"
+    let NERDTreeHijackNetrw = 1
+    let NERDTreeQuitOnOpen = 1
+    let NERDTreeWinSize = 50
+    let NERDTreeChDirMode = 2
+    let NERDTreeDirArrows = 1
     let NERDTreeMouseMode=2
-    let NERDTreeShowHidden=1
-    let NERDTreeKeepTreeInNewTab=0
-    let g:nerdtree_tabs_open_on_gui_startup=0
-" }
 
+" }
 
 " Synstatic {
     let g:syntastic_check_on_open=1                " Configure Synstatic syntax checking to check on open as well as save
@@ -269,6 +395,7 @@ augroup END
 " Supertab {
     " let g:SuperTabDefaultCompletionType = 'context'
     let g:SuperTabLongestEnhanced = 1
+    let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 " }
 
 " Snipmate {
