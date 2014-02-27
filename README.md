@@ -21,14 +21,13 @@ To install the files and default configuration run the following:
 
 **Normal Install**
 
-    # For previous/existing configuration, include this:
-    rm -rf ~/.vim && rm -rf ~/.vimrc && rm -rf ~/.gvimrc 
+    # Backup for your existing VIM configuration
+    mv ~/.vim ~/.vim_bkp && mv ~/.vimrc ~/.vimrc_bkp && mv ~/.gvimrc ~/.gvimrc_bkp 
 
-    git clone --recursive http://github.com/vitorbritto/setup-vim.git ~/.vim && \
-    ln -s ~/.vim/vimrc ~/.vimrc && \
-    rm -rf ~/.vim/init.sh && \
-    clear && \
-    echo " ✔ All done!"
+    # Installation
+    git clone --recursive http://github.com/vitorbritto/setup-vim.git .vim
+    ln -s ~/.vim/vimrc ~/.vimrc
+    rm -rf ~/.vim/init.sh
 
 ## Plugins
 
