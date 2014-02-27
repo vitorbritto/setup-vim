@@ -9,6 +9,7 @@
 #
 
 # Declaring variables
+GFILE="~/.gvimrc"
 FILE="~/.vimrc"
 DIR="~/.vim"
 
@@ -19,11 +20,15 @@ echo -e " → This could take awhile. Relax and enjoy... =] "
 echo -e "-------------------------------------------------"
 
 if [ -d "$DIR" ]; then
-    rm -rf ~/.vim
+    mv ~/.vim ~/.vim_bkp
 fi
 
 if [ -f "$FILE" ]; then
-    rm ~/.vimrc
+    mv ~/.vimrc ~/.vimrc_bkp
+fi
+
+if [ -f "$GFILE" ]; then
+    mv ~/.gvimrc ~/.gvimrc_bkp
 fi
 
 git clone --recursive http://github.com/vitorbritto/setup-vim.git $DIR
