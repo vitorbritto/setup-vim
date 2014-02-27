@@ -18,11 +18,11 @@ echo -e "-------------------------------------------------"
 echo -e " → This could take awhile. Relax and enjoy... =] "
 echo -e "-------------------------------------------------"
 
-if [ -d "$DIR" ] then;
+if [ -d "$DIR" ]; then
     rm -rf ~/.vim
 fi
 
-if [ -f "$FILE" ] then;
+if [ -f "$FILE" ]; then
     rm ~/.vimrc
 fi
 
