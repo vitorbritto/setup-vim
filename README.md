@@ -15,8 +15,20 @@ Introduction to Vim: http://blog.interlinked.org/tutorials/vim_tutorial.html
 
 To install the files and default configuration run the following:
 
-    rm -fR ~/.vim && git clone --recursive http://github.com/vitorbritto/setup-vim.git ~/.vim && rm ~/.vimrc && ln -s ~/.vim/vimrc ~/.vimrc && clear && echo "Done! :)"
+**Quick Install**
 
+    bash -c "$(curl -fsSL raw.github.com/vitorbritto/setup-vim/master/init.sh)"
+
+**Normal Install**
+
+    # For previous/existing configuration, include this:
+    rm -rf ~/.vim && rm -rf ~/.vimrc && rm -rf ~/.gvimrc 
+
+    git clone --recursive http://github.com/vitorbritto/setup-vim.git ~/.vim && \
+    ln -s ~/.vim/vimrc ~/.vimrc && \
+    rm -rf ~/.vim/init.sh && \
+    clear && \
+    echo " ✔ All done!"
 
 ## Plugins
 
