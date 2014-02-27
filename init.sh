@@ -9,9 +9,9 @@
 #
 
 # Declaring variables
-GFILE="~/.gvimrc"
-FILE="~/.vimrc"
-DIR="~/.vim"
+GFILE=".gvimrc"
+FILE=".vimrc"
+DIR=".vim"
 
 # Scaffolding
 echo -e " → Installing VIM"
