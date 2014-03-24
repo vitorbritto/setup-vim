@@ -423,3 +423,7 @@ au BufNewFile,BufReadPost *.sass setl foldmethod=indent
     let g:gundo_preview_bottom = 1
 " }
 
+" LustyJuggler {
+    let g:LustyJugglerSuppressRubyWarning = 1
+}"
+
