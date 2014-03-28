@@ -22,12 +22,13 @@ To install the files and default configuration run the following:
 **Normal Install**
 
     # Backup for your existing VIM configuration
-    mv ~/.vim ~/.vim_bkp && mv ~/.vimrc ~/.vimrc_bkp && mv ~/.gvimrc ~/.gvimrc_bkp 
+    mv ~/.vim ~/.vim_bkp && mv ~/.vimrc ~/.vimrc_bkp && mv ~/.gvimrc ~/.gvimrc_bkp
 
     # Installation
     git clone --recursive http://github.com/vitorbritto/setup-vim.git .vim
     ln -s ~/.vim/vimrc ~/.vimrc
     rm -rf ~/.vim/init.sh
+
 
 ## Plugins
 
@@ -101,6 +102,7 @@ To sync this environment on another machine run the following:
 - http://stevelosh.com/blog/2010/09/coming-home-to-vim/#important-vimrc-lines
 - http://vimcasts.org/
 
+
 ## Acknowledgments
 
 - http://tpo.pe/
@@ -111,3 +113,8 @@ To sync this environment on another machine run the following:
 - https://github.com/alexreisner/dotfiles/blob/master/.vimrc
 - http://items.sjbach.com/319/configuring-vim-right
 - https://github.com/sickill/dotfiles/blob/master/.vimrc
+
+
+## License
+
+[MIT License](http://vitorbritto.mit-license.org/) © Vitor Britto
