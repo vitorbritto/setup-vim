@@ -24,17 +24,17 @@ To install the files and default configuration run the following:
 
 **Quick Install**
 
-    bash -c "$(curl -fsSL raw.github.com/vitorbritto/setup-vim/master/init.sh)"
+    $ bash -c "$(curl -fsSL raw.github.com/vitorbritto/setup-vim/master/init.sh)"
 
 **Normal Install**
 
     # Backup for your existing VIM configuration
-    mv ~/.vim ~/.vim_bkp && mv ~/.vimrc ~/.vimrc_bkp && mv ~/.gvimrc ~/.gvimrc_bkp
+    $ mv ~/.vim ~/.vim_bkp && mv ~/.vimrc ~/.vimrc_bkp && mv ~/.gvimrc ~/.gvimrc_bkp
 
     # Installation
-    git clone --recursive http://github.com/vitorbritto/setup-vim.git .vim
-    ln -s ~/.vim/vimrc ~/.vimrc
-    rm -rf ~/.vim/init.sh
+    $ git clone --recursive http://github.com/vitorbritto/setup-vim.git .vim
+    $ ln -s ~/.vim/vimrc ~/.vimrc
+    $ rm -rf ~/.vim/init.sh
 
 
 ## Plugins
@@ -45,28 +45,28 @@ Plug-ins are managed using pathogen. All submodule plug-ins are stored in the `b
 
 New plug-ins need to be added to the `bundle` directory and should be treated as submodules. To add a new one run:
 
-    git submodule add <repository> ~/.vim/bundle/<plugin-name>
-    git submodule init
-    git submodule update
+    $ git submodule add <repository> ~/.vim/bundle/<plugin-name>
+    $ git submodule init
+    $ git submodule update
 
 ### Update Plugins (Upgrading all bundled plugins)
 
 To pull upstream changes for all of the submodules run the following:
 
-    cd ~/.vim
-    git submodule foreach git pull origin master
+    $ cd ~/.vim
+    $ git submodule foreach git pull origin master
 
 
 ### Sync Setup (Installing Vim environment on another machine)
 
 To sync this environment on another machine run the following:
 
-    cd ~
-    git clone http://github.com/vitorbritto/setup-vim.git ~/.vim
-    ln -s ~/.vim/vimrc ~/.vimrc
-    cd ~/.vim
-    git submodule init
-    git submodule update
+    $ cd ~
+    $ git clone http://github.com/vitorbritto/setup-vim.git ~/.vim
+    $ ln -s ~/.vim/vimrc ~/.vimrc
+    $ cd ~/.vim
+    $ git submodule init
+    $ git submodule update
 
 ### Removing Submodules
 
@@ -95,7 +95,6 @@ To sync this environment on another machine run the following:
 - [vim-bundler](https://github.com/tpope/vim-bundler.git)
 - [emmet-vim](https://github.com/mattn/emmet-vim.git)
 - [browser-refresh.vim](https://github.com/mkitt/browser-refresh.vim/blob/master/doc/browser-refresh.txt)
-- [LustyJuggler](https://github.com/vim-scripts/LustyJuggler)
 - [gist-vim](https://github.com/mattn/gist-vim)
 - [jade.vim](https://github.com/vim-scripts/jade.vim)
 - [json.vim](https://github.com/vim-scripts/JSON.vim)
