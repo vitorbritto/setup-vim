@@ -34,7 +34,6 @@ fi
 git clone --recursive http://github.com/vitorbritto/setup-vim.git $DIR
 ln -s ~/.vim/vimrc $FILE
 rm -rf ~/.vim/init.sh
-clear
 
 # All done!
 echo -e " ✔ All done!"
