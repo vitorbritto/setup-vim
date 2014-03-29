@@ -5,8 +5,8 @@ My personal VIM Configuration.
 
 ## Requirements
 
-Vim 7.3 or better
-Tested on MacOS and Linux
+Vim 7.3 or better <br>
+Tested on Mac OS X
 
 Introduction to Vim: http://blog.interlinked.org/tutorials/vim_tutorial.html
 
