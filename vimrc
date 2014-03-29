@@ -377,11 +377,28 @@ au BufNewFile,BufReadPost *.sass setl foldmethod=indent
 " }
 
 " Synstatic {
-    let g:syntastic_check_on_open=1                " Configure Synstatic syntax checking to check on open as well as save
-    let g:syntastic_error_symbol='✗'               " Configure Synstatic error symbol
-    let g:syntastic_style_error_symbol  = '⚡'
-    let g:syntastic_warning_symbol='⚠'             " Configure Synstatic warning symbol
-    let g:syntastic_style_warning_symbol  = '⚡'
+
+    " Global Config
+    let g:syntastic_check_on_open = 1             " Check on open as well as save
+    let g:syntastic_error_symbol = '✗'            " Error Symbol
+    let g:syntastic_warning_symbol = '⚠'          " Warning Symbol
+    let g:syntastic_style_error_symbol = '⚡'      " Style Error Symbol
+    let g:syntastic_style_warning_symbol = '⚡'    " Style Warning Symbol
+
+    " SCSS
+    let g:syntastic_scss_checkers = ['scss_lint']
+
+    " CSS
+    let g:syntastic_css_checkers = ['css_lint']
+    let g:syntastic_csslint_options = "--warnings=none"
+
+    " Ruby
+    let g:syntastic_ruby_checkers = ['pylint']
+
+    " JavaScript
+
+    " Scripts
+
 " }
 
 " AirLine {
@@ -422,8 +439,3 @@ au BufNewFile,BufReadPost *.sass setl foldmethod=indent
     nnoremap <Leader>u :GundoToggle<CR>
     let g:gundo_preview_bottom = 1
 " }
-
-" LustyJuggler {
-    let g:LustyJugglerSuppressRubyWarning = 1
-}"
-
