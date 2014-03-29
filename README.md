@@ -78,6 +78,7 @@ To sync this environment on another machine run the following:
 
 ### Default Plug-Ins
 
+- [vim-airline](https://github.com/bling/vim-airline)
 - [bufkill.vim](https://github.com/vim-scripts/bufkill.vim.git)
 - [camelcasemotion](https://github.com/vim-scripts/camelcasemotion.git)
 - [colorsel.vim](https://github.com/vim-scripts/colorsel.vim.git)
