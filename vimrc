@@ -377,34 +377,20 @@ au BufNewFile,BufReadPost *.sass setl foldmethod=indent
 " }
 
 " Synstatic {
-
-    " Global Config
     let g:syntastic_check_on_open = 1             " Check on open as well as save
     let g:syntastic_error_symbol = '✗'            " Error Symbol
     let g:syntastic_warning_symbol = '⚠'          " Warning Symbol
     let g:syntastic_style_error_symbol = '⚡'      " Style Error Symbol
     let g:syntastic_style_warning_symbol = '⚡'    " Style Warning Symbol
 
-    " SCSS
-    let g:syntastic_scss_checkers = ['scss_lint']
-
-    " CSS
-    let g:syntastic_css_checkers = ['css_lint']
-    let g:syntastic_csslint_options = "--warnings=none"
-
-    " Ruby
-    let g:syntastic_ruby_checkers = ['pylint']
-
-    " JavaScript
-
-    " Scripts
-
+    let g:syntastic_css_checkers = ['csslint']
+    let g:syntastic_javascript_checkers = ['jshint']
 " }
 
 " AirLine {
     let g:airline_theme='powerlineish'
-    let g:airline_enable_branch=1
-    let g:airline_powerline_fonts=1
+    let g:airline_enable_branch = 1
+    let g:airline_powerline_fonts = 1
     let g:airline_detect_whitespace = 1
     let g:airline#extensions#hunks#non_zero_only = 1
 " }
