@@ -30,9 +30,6 @@
 [submodule "bundle/json.vim"]
 	path = bundle/json.vim
 	url = https://github.com/vim-scripts/JSON.vim.git
-[submodule "bundle/lustyjuggler"]
-	path = bundle/lustyjuggler
-	url = https://github.com/vim-scripts/LustyJuggler.git
 [submodule "bundle/markdown-preview.vim"]
 	path = bundle/markdown-preview.vim
 	url = https://github.com/mkitt/markdown-preview.vim.git
