@@ -369,7 +369,7 @@ au BufNewFile,BufReadPost *.sass setl foldmethod=indent
     let NERDTreeWinPos = "left"
     let NERDTreeHijackNetrw = 1
     let NERDTreeQuitOnOpen = 1
-    let NERDTreeWinSize = 50
+    let NERDTreeWinSize = 30
     let NERDTreeChDirMode = 2
     let NERDTreeDirArrows = 1
     let NERDTreeMouseMode=2
@@ -416,7 +416,6 @@ au BufNewFile,BufReadPost *.sass setl foldmethod=indent
     nnoremap <silent> <leader>gr :Gread<CR>
     nnoremap <silent> <leader>gw :Gwrite<CR>
     nnoremap <silent> <leader>ge :Gedit<CR>
-    " Mnemonic _i_nteractive
     nnoremap <silent> <leader>gi :Git add -p %<CR>
     nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " }
