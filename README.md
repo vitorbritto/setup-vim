@@ -10,6 +10,13 @@ Tested on MacOS and Linux
 
 Introduction to Vim: http://blog.interlinked.org/tutorials/vim_tutorial.html
 
+- [Homebrew](http://github.com/mxcl/homebrew) - `ruby -e "$(curl -fsSL https://gist.github.com/raw/323731/install_homebrew.rb)"`
+- [MacVim](http://code.google.com/p/macvim/) - `brew install macvim`
+- [Homesick](http://github.com/technicalpickles/homesick) - `gem install homesick`
+- [discount](http://www.pell.portland.or.us/~orc/Code/discount/) - `brew install discount `
+- [ctags](http://ctags.sourceforge.net/) - `brew install ctags `
+
+[MacVim](http://code.google.com/p/macvim/) is not a requirement as the majority of the files work in most \*nix environments including Terminal. It's recommended to use [Homebrew's](http://github.com/mxcl/homebrew) package of [MacVim](http://code.google.com/p/macvim/), as it compiles MacVim and Vim at 64 bit with Ruby, Python, Perl, installs the command line link `mvim`, plus a bunch of other goodness. [Homesick](http://github.com/technicalpickles/homesick) is required for easy management of dot files with the repository. The [discount](http://www.pell.portland.or.us/~orc/Code/discount/) executable is recommended for converting markdown files to html for previewing. The [ctags](http://ctags.sourceforge.net/) executable is helpful for taglist (jumping between files) and omni completion.
 
 ## Installing
 
@@ -34,7 +41,7 @@ To install the files and default configuration run the following:
 
 Plug-ins are managed using pathogen. All submodule plug-ins are stored in the `bundle` directory.
 
-### Add Plugins (Install plugins as submodules)
+### Adding New Plug-Ins As Submodules
 
 New plug-ins need to be added to the `bundle` directory and should be treated as submodules. To add a new one run:
 
@@ -61,19 +68,40 @@ To sync this environment on another machine run the following:
     git submodule init
     git submodule update
 
+### Removing Submodules
+
+   - Delete the relevant line from the `.gitmodules` file
+   - Delete the relevant section from `.git/config`
+   - Run `git rm --cached path_to_submodule` (**no trailing slash!!**)
+   - Remove the directory from `bundle`
+   - Remove any descriptions from the `README.md` file
 
 ### Default Plug-Ins
 
-- [ack.vim](https://github.com/mileszs/ack.vim/blob/master/doc/ack.txt)
+- [bufkill.vim](https://github.com/vim-scripts/bufkill.vim.git)
+- [camelcasemotion](https://github.com/vim-scripts/camelcasemotion.git)
+- [colorsel.vim](https://github.com/vim-scripts/colorsel.vim.git)
+- [Gundo](https://github.com/vim-scripts/Gundo.git)
+- [HTML-AutoCloseTag](https://github.com/vim-scripts/HTML-AutoCloseTag.git)
+- [IndexedSearch](https://github.com/vim-scripts/IndexedSearch.git)
+- [Specky](https://github.com/vim-scripts/Specky.git)
+- [tabular](https://github.com/godlygeek/tabular.git)
+- [TailMinusF](https://github.com/vim-scripts/TailMinusF.git)
+- [vim-ragtag](https://github.com/tpope/vim-ragtag.git)
+- [vim-repeat](https://github.com/tpope/vim-repeat.git)
+- [vim-surround](https://github.com/tpope/vim-surround.git)
+- [delimitMate](https://github.com/Raimondi/delimitMate.git)
+- [vim-rake](https://github.com/tpope/vim-rake.git)
+- [vim-bundler](https://github.com/tpope/vim-bundler.git)
+- [emmet-vim](https://github.com/mattn/emmet-vim.git)
 - [browser-refresh.vim](https://github.com/mkitt/browser-refresh.vim/blob/master/doc/browser-refresh.txt)
-- [cocoa.vim](https://github.com/msanders/cocoa.vim/blob/master/doc/cocoa.txt)
+- [LustyJuggler](https://github.com/vim-scripts/LustyJuggler)
 - [gist-vim](https://github.com/mattn/gist-vim)
 - [jade.vim](https://github.com/vim-scripts/jade.vim)
 - [json.vim](https://github.com/vim-scripts/JSON.vim)
 - [markdown-preview.vim](https://github.com/mkitt/markdown-preview.vim/blob/master/doc/markdown-preview.txt)
 - [nerdcommenter](https://github.com/scrooloose/nerdcommenter/blob/master/doc/NERD_commenter.txt)
 - [nerdtree](https://github.com/scrooloose/nerdtree/blob/master/doc/NERD_tree.txt)
-- [processing.vim](https://github.com/vim-scripts/Processing)
 - [rvm.vim](https://github.com/csexton/rvm.vim)
 - [snipmate.vim](https://github.com/msanders/snipmate.vim/blob/master/doc/snipMate.txt)
 - [statusline](https://github.com/factorylabs/vimfiles/blob/master/home/.vim/bundle_storage/statusline/doc/statusline.txt)
@@ -90,7 +118,6 @@ To sync this environment on another machine run the following:
 - [vim-ruby](https://github.com/vim-ruby/vim-ruby/tree/master/doc)
 - [vim-stylus](https://github.com/wavded/vim-stylus)
 - [vim-unimpaired](https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt)
-- [yankring](https://github.com/chrismetcalf/vim-yankring/blob/master/doc/yankring.txt)
 
 
 ## Helpful Stuff
