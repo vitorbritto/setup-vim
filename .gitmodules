@@ -7,8 +7,6 @@
 [submodule "bundle/camelcasemotion"]
 	path = bundle/camelcasemotion
 	url = https://github.com/vim-scripts/camelcasemotion.git
-	path = bundle/cocoa.vim
-	url = https://github.com/msanders/cocoa.vim.git
 [submodule "bundle/colorsel.vim"]
 	path = bundle/colorsel.vim
 	url = https://github.com/vim-scripts/colorsel.vim.git
@@ -39,8 +37,6 @@
 [submodule "bundle/nerdtree"]
 	path = bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-	path = bundle/processing.vim
-	url = https://github.com/vim-scripts/Processing.git
 [submodule "bundle/snipmate.vim"]
 	path = bundle/snipmate.vim
 	url = https://github.com/msanders/snipmate.vim.git

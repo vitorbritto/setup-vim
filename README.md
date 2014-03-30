@@ -5,10 +5,9 @@ My personal VIM Configuration.
 
 ## Requirements
 
-Vim 7.3 or better <br>
-Tested on Mac OS X
+Vim 7.3 or better _(Tested on Mac OS )_
 
-Introduction to Vim: http://blog.interlinked.org/tutorials/vim_tutorial.html
+**Introduction to Vim:** http://blog.interlinked.org/tutorials/vim_tutorial.html
 
 - [Homebrew](http://github.com/mxcl/homebrew) - `ruby -e "$(curl -fsSL https://gist.github.com/raw/323731/install_homebrew.rb)"`
 - [MacVim](http://code.google.com/p/macvim/) - `brew install macvim`
@@ -17,6 +16,7 @@ Introduction to Vim: http://blog.interlinked.org/tutorials/vim_tutorial.html
 - [ctags](http://ctags.sourceforge.net/) - `brew install ctags `
 
 [MacVim](http://code.google.com/p/macvim/) is not a requirement as the majority of the files work in most \*nix environments including Terminal. It's recommended to use [Homebrew's](http://github.com/mxcl/homebrew) package of [MacVim](http://code.google.com/p/macvim/), as it compiles MacVim and Vim at 64 bit with Ruby, Python, Perl, installs the command line link `mvim`, plus a bunch of other goodness. [Homesick](http://github.com/technicalpickles/homesick) is required for easy management of dot files with the repository. The [discount](http://www.pell.portland.or.us/~orc/Code/discount/) executable is recommended for converting markdown files to html for previewing. The [ctags](http://ctags.sourceforge.net/) executable is helpful for taglist (jumping between files) and omni completion.
+
 
 ## Installing
 
@@ -55,7 +55,6 @@ To pull upstream changes for all of the submodules run the following:
 
     $ cd ~/.vim
     $ git submodule foreach git pull origin master
-
 
 ### Sync Setup (Installing Vim environment on another machine)
 
