@@ -338,18 +338,26 @@ nnoremap <F3> :GundoToggle<CR>
 "  Auto Commands
 "  ---------------------------------------------------------------------------
 
-au vimenter * NERDTree
+autocmd vimenter * NERDTree
 
-au BufNewFile *.txt :write
+autocmd BufNewFile *.txt :write
 
-au BufRead,BufNewFile *.md set filetype=markdown
-au FileType markdown setlocal spell                " Enable spellchecking for Markdown
-au BufRead,BufNewFile *.md setlocal textwidth=80   " Automatically wrap at 80 characters for Markdown
+autocmd FileType markdown setlocal spell                " Enable spellchecking for Markdown
+autocmd BufRead,BufNewFile *.md setlocal textwidth=80   " Automatically wrap at 80 characters for Markdown
 
-au! BufRead,BufNewFile *.sass setfiletype sass
-au BufRead,BufNewFile *.scss set filetype=scss
-au BufNewFile,BufReadPost *.scss setl foldmethod=indent
-au BufNewFile,BufReadPost *.sass setl foldmethod=indent
+autocmd BufNewFile,BufReadPost *.scss setl foldmethod=indent
+autocmd BufNewFile,BufReadPost *.sass setl foldmethod=indent
+
+autocmd BufRead,BufNewFile *.yml set filetype=yaml
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+autocmd BufRead,BufNewFile *.txt set filetype=markdown
+autocmd BufRead,BufNewFile *.php set filetype=php
+autocmd BufRead,BufNewFile *.sass set filetype=sass
+autocmd BufRead,BufNewFile *.scss set filetype=scss
+autocmd BufRead,BufNewFile *.js set filetype=javascript syntax=javascript
+autocmd BufRead,BufNewFile *.json set filetype=json syntax=javascript
+autocmd BufRead,BufNewFile *.rb set filetype=ruby
+autocmd BufRead,BufNewFile *.jade set filetype=jade
 
 
 "  ---------------------------------------------------------------------------
