@@ -5,6 +5,8 @@ set nocompatible
 " Use Pathogen to load bundles
 execute pathogen#infect()
 
+
+
 "  ---------------------------------------------------------------------------
 "  General
 "  ---------------------------------------------------------------------------
@@ -23,66 +25,43 @@ set shell=bash                      " Run RVM inside VIM
 set ttyfast                         " Optimize for fast terminal connections
 
 
+
 "  ---------------------------------------------------------------------------
-"  UI
+"  Basic Options
 "  ---------------------------------------------------------------------------
 
-set title                                  " Show the filename in the window titlebar
-set encoding=utf-8                         " Use UTF-8
-set scrolloff=3                            " Start scrolling three lines before the horizontal window border
-set autoindent
-set smartindent
-set showmode                               " Show the current mode
-set tabpagemax=15                          " Only show 15 tabs
-set hidden
-set wildmenu                               " Show list instead of just completing
-set wildmode=list:longest,full             " Command <Tab> completion, list matches, then longest common part, then all.
-
-set novisualbell                           " No blinking
-set noerrorbells                           " No noise
-
-if has("gui_running")
-    set go-=T                              " hide the toolbar
-    set go-=m                              " hide the menu
-    set go-=rRlLbh                         " hide all the scrollbars
-    set mouse=a                            " Automatically enable mouse usage
-    set mousehide                          " Hide the mouse cursor while typing
-endif
-
+set showcmd                                             " Show partial commands in status line
+set showmode                                            " Show the current mode
 set backspace=indent,eol,start
-set undofile
-
-set splitbelow splitright                  " Open new split panes to right and bottom, which feels more natural
-
-set number                                 " Line numbers on
-set numberwidth=5
-
+set hidden
+set wildmenu                                            " Show list instead of just completing
+set wildmode=list:longest,full                          " Command <Tab> completion, list matches, then longest common part, then all.
+set ignorecase                                          " Ignore case of searches
+set smartcase
+set number                                              " Line numbers on
+set ruler                                               " Show the ruler
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)      " A ruler on steroids
+set hlsearch                                            " Highlight searches
+set incsearch                                           " Highlight dynamically as pattern is typed
+set nowrap
+set scrolloff=3
+set title                                               " Show the filename in the window titlebar
+set novisualbell                                        " No blinking
+set noerrorbells                                        " No noise
 set cursorline
-set ruler                                            " Show the ruler
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)   " A ruler on steroids
-set showcmd                                          " Show partial commands in status line and
-                                                     " selected characters/lines in visual mode
-
-set foldenable                                       " Turn on folding
-set foldmethod=marker                                " Fold on the marker
-set foldlevel=100                                    " Don't autofold anything (but I can still fold manually)
-
-set foldopen=block,hor,tag                           " what movements open folds
+set foldenable                                          " Turn on folding
+set foldmethod=indent                                   " Fold on the indent
+set foldlevel=100                                       " Don't autofold anything (but I can still fold manually)
+set foldopen=block,hor,tag                              " what movements open folds
 set foldopen+=percent,mark
 set foldopen+=quickfix
-
 set list
-set listchars=tab:›\ ,trail:•,extends:#,nbsp:.       " Highlight problematic whitespace
-set hlsearch                                         " Highlight searches
-set ignorecase                                       " Ignore case of searches
-set incsearch                                        " Highlight dynamically as pattern is typed
-
-set lines=50 columns=180                             " Auto adjust window sizes when they become current
-
-colorscheme molokai                                  " Theme and Font Settings
-set guifont=Menlo:h14
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.          " Highlight problematic whitespace
+set tabpagemax=15                                       " Only show 15 tabs
+set undofile
+set splitbelow splitright                               " Open new split panes to right and bottom, which feels more natural
 set t_Co=256
-set linespace=8
+
 
 
 "  ---------------------------------------------------------------------------
@@ -96,6 +75,7 @@ if exists("&undodir")
 endif
 
 
+
 "  ---------------------------------------------------------------------------
 "  Text Formatting
 "  ---------------------------------------------------------------------------
@@ -107,6 +87,8 @@ set expandtab
 
 set textwidth=80
 set formatoptions=n
+
+
 
 "  ---------------------------------------------------------------------------
 "  Status Line
@@ -260,11 +242,35 @@ function! StatuslineLongLineWarning()
     return b:statusline_long_line_warning
 endfunction
 
+
+
 "  ---------------------------------------------------------------------------
 "  Mappings
 "  ---------------------------------------------------------------------------
 
-" Saving and exit
+" Tabs
+nnoremap <leader>t :tabnew<cr>
+nnoremap <leader>e :tabedit
+nnoremap <leader>c :tabclose<cr>
+nnoremap <leader>n :tabnext<cr>
+nnoremap <leader>p :tabprevious<cr>
+
+" Go to start of line with H and to the end with L
+noremap H ^
+noremap L $
+
+" Move around easily
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Create windows
+nnoremap <leader>v <C-w>v<C-w>l
+nnoremap <leader>m <C-w>s<C-w>j
+nnoremap <leader>d <C-w>q
+
+" Saving and Exit
 nmap <leader>q :wqa!<CR>
 nmap <leader>w :w!<CR>
 nmap <leader><Esc> :q!<CR>
@@ -277,18 +283,29 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>v :view %%
 
+" Execute StripWhitespace Function
 noremap <leader>ss :call StripWhitespace()<CR>
+
+" Execute RenameFile Function
+map <leader>rn :call RenameFile()<cr>
+
+" Execute MakeDirIfNoExists Function
+" map <leader>mk :call MakeDirIfNoExists()<cr>
+
+" Go full-screen
+nnoremap <leader>fs :set lines=999 columns=9999<cr>
+
 
 
 "  ---------------------------------------------------------------------------
 "  Helpers
 "  ---------------------------------------------------------------------------
 
-function! MakeDirIfNoExists(path)
-    if !isdirectory(expand(a:path))
-        call mkdir(expand(a:path), "p")
-    endif
-endfunction
+" function! MakeDirIfNoExists(path)
+"     if !isdirectory(expand(a:path))
+"         call mkdir(expand(a:path), "p")
+"     endif
+" endfunction
 
 " Rename current file
 function! RenameFile()
@@ -300,7 +317,6 @@ function! RenameFile()
         redraw!
     endif
 endfunction
-map <leader>n :call RenameFile()<cr>
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
@@ -312,12 +328,14 @@ function! StripWhitespace()
 endfunction
 
 
+
 "  ---------------------------------------------------------------------------
 "  Abbreviations
 "  ---------------------------------------------------------------------------
 
 iabbrev @@    code@vitorbritto.com.br
-iabbrev ccopy Copyright 2014 Vitor Britto. All rights reserved.
+iabbrev ccopy Copyright 2015 Vitor Britto. All rights reserved.
+
 
 
 "  ---------------------------------------------------------------------------
@@ -334,30 +352,37 @@ nnoremap <F2> :NERDTreeToggle<CR>
 nnoremap <F3> :GundoToggle<CR>
 
 
+
 "  ---------------------------------------------------------------------------
 "  Auto Commands
 "  ---------------------------------------------------------------------------
 
 autocmd vimenter * NERDTree
 
-autocmd BufNewFile *.txt :write
-
-autocmd FileType markdown setlocal spell                " Enable spellchecking for Markdown
-autocmd BufRead,BufNewFile *.md setlocal textwidth=80   " Automatically wrap at 80 characters for Markdown
-
-autocmd BufNewFile,BufReadPost *.scss setl foldmethod=indent
-autocmd BufNewFile,BufReadPost *.sass setl foldmethod=indent
-
-autocmd BufRead,BufNewFile *.yml set filetype=yaml
-autocmd BufRead,BufNewFile *.md set filetype=markdown
 autocmd BufRead,BufNewFile *.txt set filetype=markdown
+autocmd BufNewFile *.txt :write
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+autocmd FileType markdown set spell
+autocmd BufRead,BufNewFile *.md set wrap
+
 autocmd BufRead,BufNewFile *.php set filetype=php
-autocmd BufRead,BufNewFile *.sass set filetype=sass
-autocmd BufRead,BufNewFile *.scss set filetype=scss
+
 autocmd BufRead,BufNewFile *.js set filetype=javascript syntax=javascript
 autocmd BufRead,BufNewFile *.json set filetype=json syntax=javascript
+autocmd BufRead,BufNewFile *.jade set filetype=html
+autocmd BufRead,BufNewFile *.ejs set filetype=html
+
+autocmd BufRead,BufNewFile *.sass set filetype=sass
+autocmd BufRead,BufNewFile *.scss set filetype=scss
+autocmd BufNewFile,BufReadPost *.scss set foldmethod=indent
+autocmd BufNewFile,BufReadPost *.sass set foldmethod=indent
+autocmd BufRead,BufNewFile *.yml set filetype=yaml
 autocmd BufRead,BufNewFile *.rb set filetype=ruby
-autocmd BufRead,BufNewFile *.jade set filetype=jade
+autocmd FileType ruby set shiftwidth=2
+autocmd FileType ruby set tabstop=2
+autocmd FileType eruby set shiftwidth=4
+autocmd FileType eruby set tabstop=4
+
 
 
 "  ---------------------------------------------------------------------------
@@ -384,7 +409,20 @@ autocmd BufRead,BufNewFile *.jade set filetype=jade
 
 " }
 
+
+" CtrlP {
+
+    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_custom_ignore = {
+      \ 'dir':  '\v[\/]\.(git|sass-cache|node_modules)$',
+      \ 'file': '\v\.(DS_Store)$'
+      \ }
+
+" }
+
+
 " Synstatic {
+
     let g:syntastic_check_on_open = 1             " Check on open as well as save
     let g:syntastic_error_symbol = '✗'            " Error Symbol
     let g:syntastic_warning_symbol = '⚠'          " Warning Symbol
@@ -393,28 +431,32 @@ autocmd BufRead,BufNewFile *.jade set filetype=jade
 
     let g:syntastic_css_checkers = ['csslint']
     let g:syntastic_javascript_checkers = ['jshint']
+
 " }
 
+
 " AirLine {
+
     let g:airline_theme='powerlineish'
     let g:airline_enable_branch = 1
     let g:airline_powerline_fonts = 1
     let g:airline_detect_whitespace = 1
     let g:airline#extensions#hunks#non_zero_only = 1
+    let g:airline_section_warning = ''
+    let g:airline_inactive_collapse = 0
+    let g:airline#extensions#default#section_truncate_width = {
+    \ 'a': 60,
+    \ 'b': 80,
+    \ 'x': 100,
+    \ 'y': 100,
+    \ 'z': 60,
+    \ }
+
 " }
 
-" Supertab {
-    " let g:SuperTabDefaultCompletionType = 'context'
-    let g:SuperTabLongestEnhanced = 1
-    let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-" }
-
-" Snipmate {
-    " Tell snipmate to pull it's snippets from a custom directory
-    let g:snippets_dir = '~/.vim/snippets/'
-" }
 
 " Fugitive {
+
     nnoremap <silent> <leader>gs :Gstatus<CR>
     nnoremap <silent> <leader>gd :Gdiff<CR>
     nnoremap <silent> <leader>gc :Gcommit<CR>
@@ -426,9 +468,13 @@ autocmd BufRead,BufNewFile *.jade set filetype=jade
     nnoremap <silent> <leader>ge :Gedit<CR>
     nnoremap <silent> <leader>gi :Git add -p %<CR>
     nnoremap <silent> <leader>gg :SignifyToggle<CR>
+
 " }
 
+
 " Gundo {
+
     nnoremap <Leader>u :GundoToggle<CR>
     let g:gundo_preview_bottom = 1
+
 " }

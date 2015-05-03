@@ -33,6 +33,7 @@ fi
 
 git clone --recursive http://github.com/vitorbritto/setup-vim.git $DIR
 ln -s ~/.vim/vimrc $FILE
+ln -s ~/.vim/gvimrc $GFILE
 rm -rf ~/.vim/init.sh
 
 # All done!
