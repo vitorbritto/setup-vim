@@ -37,9 +37,6 @@
 [submodule "bundle/nerdtree"]
 	path = bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule "bundle/snipmate.vim"]
-	path = bundle/snipmate.vim
-	url = https://github.com/msanders/snipmate.vim.git
 [submodule "bundle/specky"]
 	path = bundle/specky
 	url = https://github.com/vim-scripts/Specky.git
@@ -112,3 +109,21 @@
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = https://github.com/bling/vim-airline
+[submodule "bundle/YouCompleteMe"]
+	path = bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe
+[submodule "bundle/ultisnips"]
+	path = bundle/ultisnips
+	url = https://github.com/sirver/ultisnips
+[submodule "bundle/vim-snippets"]
+	path = bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets.git
+[submodule "bundle/ctrlp.vim"]
+	path = bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule "bundle/php.vim"]
+	path = bundle/php.vim
+	url = https://github.com/StanAngeloff/php.vim
+[submodule "bundle/phpcomplete.vim"]
+	path = bundle/phpcomplete.vim
+	url = https://github.com/shawncplus/phpcomplete.vim
