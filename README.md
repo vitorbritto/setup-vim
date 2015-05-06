@@ -34,6 +34,7 @@ To install the files and default configuration run the following:
     # Installation
     $ git clone --recursive http://github.com/vitorbritto/setup-vim.git .vim
     $ ln -s ~/.vim/vimrc ~/.vimrc
+    $ ln -s ~/.vim/gvimrc ~/.gvimrc
     $ rm -rf ~/.vim/init.sh
 
 
