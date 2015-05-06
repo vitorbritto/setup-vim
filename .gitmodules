@@ -127,3 +127,6 @@
 [submodule "bundle/phpcomplete.vim"]
 	path = bundle/phpcomplete.vim
 	url = https://github.com/shawncplus/phpcomplete.vim
+[submodule "bundle/vim-ident-guides"]
+	path = bundle/vim-ident-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides
